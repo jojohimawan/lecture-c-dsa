@@ -1,0 +1,278 @@
+//
+// Created by jordan on 3/20/2023.
+//
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct simpul Dnode;
+struct simpul {
+    int data;
+    Dnode *prev, *next;
+};
+Dnode *head = NULL; Dnode *p;
+
+void menu();
+void allocation();
+void insert_begin();
+void insert_end();
+void insert_after();
+void insert_before();
+void delete_begin();
+void delete_end();
+void delete_key();
+void output();
+
+int main() {
+    menu();
+    return 0;
+}
+
+void menu() {
+    int flag = 0, option; int menu;
+
+    while(!flag) {
+        printf("Menu\n1. Insert\n2. Delete\n3. Keluar\n");
+        printf("Pilihan: ");
+        scanf("%d", &option);
+        fflush(stdin);
+
+        switch(option) {
+            case 1:
+                printf("Menu INSERT\n1.Awal\n2.Akhir\n3.After\n4.Before\n");
+                printf("Pilihan: ");
+                scanf("%d", &menu); fflush(stdin);
+                allocation();
+                if(menu == 1) {
+                    insert_begin();
+                } else if(menu == 2) {
+                    insert_end();
+                } else if(menu == 3) {
+                    insert_after();
+                } else if(menu == 4) {
+                    insert_before();
+                } else {
+                    printf("Tidak Valid\n");
+                }
+                output();
+                break;
+            case 2:
+                printf("Menu DELETE\n1.Awal\n2.Akhir\n3.Tertentu\n");
+                printf("Pilihan: ");
+                scanf("%d", &menu); fflush(stdin);
+                if(menu == 1) {
+                    delete_begin();
+                } else if(menu == 2) {
+                    delete_end();
+                } else if(menu == 3) {
+                    delete_key();
+                } else {
+                    printf("Tidak Valid\n");
+                }
+                output();
+                break;
+            case 3:
+                flag = 1;
+                break;
+            default: printf("Tidak valid\n"); flag = 1; break;
+        }
+    }
+}
+
+void allocation() {
+    p = (Dnode *) malloc(sizeof(Dnode));
+
+    if(p == NULL) {
+        puts("Gagal alokasi");
+        exit(0);
+    } else {
+        printf("Input data: ");
+        scanf("%d", &p->data);
+        p->prev = NULL;
+        p->next = NULL;
+    }
+}
+
+void insert_begin() {
+    if(head == NULL) {
+        head = p;
+    } else {
+        p->next = head;
+        head->prev = p;
+        head = p;
+    }
+}
+
+void insert_end() {
+    Dnode *tail;
+
+    if(head == NULL) {
+        insert_begin();
+    } else {
+        tail = head;
+
+        while(tail->next != NULL) {
+            tail = tail->next;
+        }
+        tail->next = p;
+        p->prev = tail;
+        tail = p;
+    }
+}
+
+void insert_after() {
+    Dnode *after; int key;
+
+    if(head == NULL) {
+        puts("DLL Kosong");
+        exit(0);
+    } else {
+        printf("Masukkan key: ");
+        scanf("%d", &key);
+
+        after = head;
+        while(after->data != key) {
+            if(after->next == NULL) {
+                puts("Key tidak ada");
+                exit(0);
+            } else {
+                after = after->next;
+            }
+        }
+
+        if(after->next == NULL) {
+            insert_end();
+        } else {
+            p->next = after->next;
+            p->prev = after;
+            after->next->prev = p;
+            after->next = p;
+        }
+    }
+}
+
+void insert_before() {
+    Dnode *before; int key;
+
+    if(head == NULL) {
+        puts("DLL Kosong");
+        exit(0);
+    } else {
+        printf("Masukkan key: ");
+        scanf("%d", &key);
+
+        before = head;
+        if(before->data == key) {
+            insert_begin();
+        } else {
+            while(before->data != key) {
+                if(before->next == NULL) {
+                    puts("Key tidak ada");
+                    exit(0);
+                } else {
+                    before = before->next;
+                }
+            }
+
+            if(before->next == NULL) {
+                insert_end();
+            } else {
+                p->prev = before->prev;
+                p->next = before;
+                before->prev->next = p;
+                before->prev = p;
+            }
+        }
+    }
+}
+
+void delete_begin() {
+    Dnode *erase;
+
+    if(head == NULL) {
+        puts("DLL Kosong");
+        exit(0);
+    }
+    if(head->next == NULL) {
+        free(head);
+        head = NULL;
+        output();
+    } else {
+        erase = head;
+        head = erase->next;
+        erase->next->prev = NULL;
+        free(erase);
+        erase = NULL;
+    }
+}
+
+void delete_end() {
+    Dnode *erase;
+
+    if(head == NULL) {
+        puts("DLL Kosong");
+        exit(0);
+    } else {
+        if(head->next == NULL) {
+            delete_begin();
+        } else {
+            erase = head;
+
+            while(erase->next != NULL) {
+                erase = erase->next;
+            }
+            erase->prev->next = NULL;
+            free(erase);
+            erase = NULL;
+        }
+    }
+}
+
+void delete_key() {
+    Dnode *erase; int key;
+    printf("Input key: "); scanf("%d", &key);
+
+    if(head == NULL) {
+        puts("DLL Kosong");
+        exit(0);
+    } else {
+        if(head->data == key) {
+            delete_begin();
+        } else {
+            erase = head;
+            while(erase->data != key) {
+                if(erase->next == NULL) {
+                    puts("Key tidak ada");
+                    exit(0);
+                } else {
+                    erase = erase->next;
+                }
+            }
+
+            if(erase->next == NULL) {
+                delete_end();
+            } else {
+                erase->prev->next = erase->next;
+                erase->next->prev = erase->prev;
+                free(erase);
+                erase = NULL;
+            }
+        }
+    }
+}
+
+void output() {
+    Dnode *read;
+
+    if (head == NULL) {
+        puts("DLL Kosong");
+        exit(0);
+    } else {
+        read = head;
+        puts("Isi DLL");
+        while (read != NULL) {
+            printf("%d ", read->data);
+            read = read->next;
+        }
+        printf("\n");
+    }
+}
