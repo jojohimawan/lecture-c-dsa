@@ -100,17 +100,18 @@ void delete_begin() {
     if(head == NULL) {
         puts("DLL Kosong");
         exit(0);
-    }
-    if(head->next == NULL) {
-        free(head);
-        head = NULL;
-        output();
     } else {
-        erase = head;
-        head = erase->next;
-        erase->next->prev = NULL;
-        free(erase);
-        erase = NULL;
+        if(head->next == NULL) {
+            free(head);
+            head = NULL;
+            output();
+        } else {
+            erase = head;
+            head = erase->next;
+            erase->next->prev = NULL;
+            free(erase);
+            erase = NULL;
+        }
     }
 }
 
