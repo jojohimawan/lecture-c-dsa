@@ -19,8 +19,7 @@ void stackPush();
 void stackPop();
 void readLifo();
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
 //    char flag; printf("Stack SLL\n");
 //    do {
 //        stackInit(); stackPush();
@@ -32,7 +31,7 @@ int main(int argc, char const *argv[])
 //    printf("Isi dari Stack\n");
 //    baca();
 //    stackPop();
-menu();
+    menu();
 
 
     return 0;
@@ -41,14 +40,14 @@ menu();
 void menu() {
     int flag = 0, option;
 
-    while(!flag) {
+    while (!flag) {
         puts("STACK USING SLL");
         printf("1. Mengisi Stack (PUSH)\n2. Mengambil Isi Stack (POP)\n3. Menampilkan Isi Stack (LIFO)\n4. Keluar\n");
         printf("Masukkan opsi: ");
         scanf("%d", &option);
         fflush(stdin);
 
-        switch(option) {
+        switch (option) {
             case 1:
                 stackInit();
                 stackPush();
@@ -71,17 +70,19 @@ void menu() {
 
 void stackInit() {
     p = (Node *) malloc(sizeof(Node));
-    if(p != NULL) {
-        printf("Data yang mau diinput: "); scanf("%c", &p->data); p->next = NULL;
+    if (p != NULL) {
+        printf("Data yang mau diinput: ");
+        scanf("%c", &p->data);
+        p->next = NULL;
     } else {
-        printf("Gagal Init\n"); exit(0);
+        printf("Gagal Init\n");
+        exit(0);
     }
 }
 
-void stackPush()
-{
+void stackPush() {
     // jika head tidak kosong
-    if(head != NULL) {
+    if (head != NULL) {
         // assign next dengan node sebelumnya
         p->next = head;
     }
@@ -90,15 +91,14 @@ void stackPush()
     head = p;
 }
 
-void stackPop()
-{
+void stackPop() {
     Node *delete;
     printf("\nDelete awal\n");
-    if(head == NULL) {
+    if (head == NULL) {
         printf("STACK kosong\n");
     } else {
         printf("Data diPOP = %c\n", head->data);
-        if(head->next == NULL) {
+        if (head->next == NULL) {
             free(head);
             head = NULL;
             readLifo();
@@ -112,11 +112,10 @@ void stackPop()
     }
 }
 
-void readLifo()
-{
-    Node *baca; baca = head;
-    while(baca != NULL)
-    {
+void readLifo() {
+    Node *baca;
+    baca = head;
+    while (baca != NULL) {
         printf("%c\n", baca->data);
         baca = baca->next;
     }

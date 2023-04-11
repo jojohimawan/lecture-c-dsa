@@ -103,8 +103,8 @@ void checkPalindrom(stack *s, itemType *p) {
     }
 
     if(isPalindrom) {
-        printf("%s adalah palindrom\n", s);
+        printf("%s adalah PALINDROM\n", s);
     } else {
-        printf("%s bukan palindrom\n", s);
+        printf("%s BUKAN palindrom\n", s);
     }
 }
