@@ -59,6 +59,7 @@ void menu()
 void enqueue(itemType x)
 {
     q = (antrian *) malloc(sizeof(antrian));
+    antrian *tail;
     if(q == NULL) {
         puts("Gagal Inisialisasi Queue");
         exit(0);
@@ -67,7 +68,6 @@ void enqueue(itemType x)
         q->next = NULL;
     }
 
-    antrian *tail;
     if(head == NULL) {
         head = q;
     } else {

@@ -119,37 +119,46 @@ itemType dequeue(queue *q)
 void minmax(queue *q)
 {
     int temp = q->front;
-    itemType min = q->item[temp]; itemType max = 0;
-    puts("Isi Queue Saat Ini Adalah: ");
-    for(int i = 0; i < q->count ; i++) {
-        if(min > q->item[temp]) {
-            min = q->item[temp];
+
+    if(isEmpty(q)) {
+        puts("Queue Kosong, Tidak ada MinMax");
+    } else {
+        itemType min = q->item[temp]; itemType max = 0;
+        puts("Isi Queue Saat Ini Adalah: ");
+        for(int i = 0; i < q->count ; i++) {
+            if(min > q->item[temp]) {
+                min = q->item[temp];
+            }
+            if(max < q->item[temp]) {
+                max = q->item[temp];
+            }
+            temp = (temp + 1) % MAX;
         }
-        if(max < q->item[temp]) {
-            max = q->item[temp];
-        }
-        temp = (temp + 1) % MAX;
+        printf("Data Terkecil = %d\n", min);
+        printf("Data Terbesar = %d\n", max);
     }
 
-    printf("Data Terkecil = %d\n", min);
-    printf("Data Terbesar = %d\n", max);
 }
 
 void findItem(queue *q, itemType x)
 {
-    int count = 0;
-    int temp = q->front;
-    for(int i = 0; i < q->count; i++){
-        if (q->item[temp] == x) {
-            count++;
-        }
-        temp = (temp + 1) % MAX;
-    }
-
-    if(count == 0) {
-        printf("Data %d tidak ada dalam queue\n", x);
+    if(isEmpty(q)) {
+        puts("Queue Kosong, Tidak bisa mencari");
     } else {
-        printf("Data %d berjumlah sebanyak %d\n", x, count);
+        int count = 0;
+        int temp = q->front;
+        for(int i = 0; i < q->count; i++){
+            if (q->item[temp] == x) {
+                count++;
+            }
+            temp = (temp + 1) % MAX;
+        }
+
+        if(count == 0) {
+            printf("Data %d tidak ada dalam queue\n", x);
+        } else {
+            printf("Data %d berjumlah sebanyak %d\n", x, count);
+        }
     }
 }
 
@@ -161,7 +170,7 @@ void fifo(queue *q)
         int temp = q->front;
         puts("Isi Queue Saat Ini Adalah: ");
         for(int i = 0; i < q->count ; i++) {
-            printf("%c\n", q->item[temp]);
+            printf("%d\n", q->item[temp]);
             temp = (temp + 1) % MAX;
         }
     }
