@@ -11,7 +11,7 @@ typedef struct murid {
     int no;
     char nama[10];
     int nilai;
-} Data;.
+} Data;
 
 void menu();
 void selectSortBy();

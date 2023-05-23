@@ -5,9 +5,8 @@
 #include <stdlib.h>
 #include <time.h>
 #include <memory.h>
-#define MAX 30000
 
-int orderBy;
+int orderBy, MAX;
 
 void menu();
 void generateRandom(int []);
@@ -26,6 +25,8 @@ void swapElement(int *, int *);
 
 int main()
 {
+    printf("Masukkan jumlah data: ");
+    scanf("%d", &MAX);
     menu();
     return 0;
 }
@@ -92,7 +93,7 @@ void menu()
         if(MAX <= 10) {
             printArray(array_backup);
         }
-        printf("Waktu eksekusi = %.2f ms\n", diff);
+        printf("Waktu eksekusi = %.5f ms\n", diff);
     } while( !flag );
 
 }
