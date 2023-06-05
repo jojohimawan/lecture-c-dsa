@@ -91,6 +91,7 @@ void menu()
         diff = difftime(end,start)*1000;
 
         if(MAX <= 10) {
+            printArray(array);
             printArray(array_backup);
         }
         printf("Waktu eksekusi = %.5f ms\n", diff);
