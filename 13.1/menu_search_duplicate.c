@@ -39,6 +39,18 @@ void menu()
 
         memcpy( array_backup, array, sizeof(array) );
 
+        sortBubble(array_backup);
+        if(MAX <= 10) {
+            for(int i = 0; i < MAX; i++) {
+                printf("%d ", array[i]);
+            }
+            printf("\n");
+            for(int i = 0; i < MAX; i++) {
+                printf("%d ", array_backup[i]);
+            }
+            printf("\n\n");
+        }
+
         printf("MENU METODE SEARCHING\n1. Sequential Search (Unsorted)\n2. Sequential Search (Sorted)\n3. Binary Search\n4. Keluar\n");
         printf("Pilihan anda [1/2/3/4]: ");
         scanf("%d", &option);
@@ -47,17 +59,21 @@ void menu()
         scanf("%d", &key);
         fflush(stdin);
 
+        sortBubble(array_backup);
+        for(int i = 0; i < MAX; i++) {
+            printf("%d ", array_backup[i]);
+        }
+        printf("\n");
+
         start = time(NULL);
         switch(option) {
             case 1:
-                sequenceSearch(array_backup, key);
+                sequenceSearch(array, key);
                 break;
             case 2:
-                sortBubble(array_backup);
                 sequenceSearch(array_backup, key);
                 break;
             case 3:
-                sortBubble(array_backup);
                 binarySearch(array_backup, key);
                 break;
             case 4:
@@ -144,36 +160,36 @@ void sequenceSearch(int A[], int key)
 
 void binarySearch(int A[], int key)
 {
-    int l = 0, r = MAX - 1, mid = (l + r) / 2, count = 0;
+    int l = 0, r = MAX - 1, found = 0, idx = 0;
 
-    if(key == A[mid]) {
-        count++;
-        int decr = mid - 1, incr = mid + 1;
-        while(decr >= l) {
-            if(A[decr] == key) {count++;}
-            decr--;
-        }
-        while(incr < r) {
-            if(A[incr] == key) {count++;}
-            incr++;
-        }
-    } else if(key < A[mid]) {
-        r = mid - 1;
-        while(l < r) {
-            if (A[l] == key) {count++;}
-            l++;
-        }
-    } else {
-        l = mid + 1;
-        while(l < r) {
-            if(A[l] == key) {count++;}
-            l++;
+    while(!found && l <= r) {
+        int mid = (l + r) / 2;
+        if(key == A[mid]) {
+            found++;
+            for(int i = mid - 1; i >= l; i--) { // loop to left
+                if(key == A[i]) {
+                    found++;
+                } else if(key != A[i]) {
+                    break;
+                }
+            }
+            for(int i = mid + 1; i <= r; i++) { // loop to right
+                if(key == A[i]) {
+                    found++;
+                } else if(key != A[i]) {
+                    break;
+                }
+            }
+        } else if(key < A[mid]) {
+            r = mid - 1;
+        } else if(key > A[mid]) {
+            l = mid + 1;
         }
     }
 
-    if(!count) {
+    if(!found) {
         printf("Key %d tidak ada\n", key);
     } else {
-        printf("Key %d ditemukan sebanyak %d\n", key, count);
+        printf("Key %d ditemukan sebanyak %d\n", key, found);
     }
 }
